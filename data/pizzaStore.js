@@ -1,19 +1,13 @@
-const Sequelize = require('sequelize')
+const Sequelize = require('sequelize').Sequelize
 
 const database = 'pizza_luvrs'
 const host = ''
 const username = 'postgres'
 const password = ''
+const localUri = `postgres://${username}:${password}@${host}:5432/${database}`
 
-const pgClient = new Sequelize(
-    database,
-    username,
-    password,
-    {
-        host,
-        dialect: 'postgres'
-    }
-)
+console.log('Booting up postgres using: ', process.env.RDS_CONNECTION_URL)
+const pgClient = new Sequelize(process.env.RDS_CONNECTION_URL || localUri)
 
 const Pizza = pgClient.define('pizza', {
     id: {
